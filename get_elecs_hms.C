@@ -119,7 +119,7 @@ void get_elecs_hms(Int_t run_num, Double_t elec_goal){
   Double_t elec_events = elec_histo->Integral();
   Double_t pion_events = pion_histo->Integral();
 
-  cout << "Look here for your desired SHMS electrons: " << elec_events << endl;
+  cout << "Look here for your desired HMS electrons: " << elec_events << endl;
   cout << " ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
   cout << "this is " <<  elec_events*100./nentries << "% of" << " " << nentries << " " << "coda events" << endl;
   cout << " ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::" << endl;
