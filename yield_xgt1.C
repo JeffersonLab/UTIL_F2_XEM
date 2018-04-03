@@ -20,25 +20,28 @@ void yield_xgt1(UInt_t runNum, Int_t numEvents)
   
   TH1F *xbjHisto     = new TH1F("xbjHisto", "SHMS Bjorken x; x_{Bj}; Number of Entries", 300, 0.0, 3.0);
   TH1F *q2Histo      = new TH1F("q2Histo", "SHMS Q^{2}; Q^{2} (GeV^{2}); Number of Entries / 0.010 GeV", 1000, 0.0, 10.0);
-  TH1F *w2Histo      = new TH1F("w2Histo", "SHMS W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.010 GeV", 1200, 0.0, 12.0);
+  TH1F *w2Histo      = new TH1F("w2Histo", "SHMS W^{2}; W^{2} (GeV^{2}); Number of Entries / 0.010 GeV", 1500, 0.0, 15.0);
   TH1F *etotHisto    = new TH1F("etotHisto", "SHMS Normalized Track Energy; E/P; Number of Entries / 0.010 GeV", 150, 0.0, 1.5);
   TH1F *etotCutHisto = new TH1F("etotCutHisto", "SHMS Normalized Track Energy; E/P; Number of Entries / 0.010 GeV", 150, 0.0, 1.5);
   
   dataTree->Project(xbjHisto->GetName(), "P.kin.x_bj", pidCut);
   dataTree->Project(q2Histo->GetName(), "P.kin.Q2", pidCut);
   dataTree->Project(w2Histo->GetName(), "P.kin.W2", pidCut);
-  dataTree->Project(etotHisto->GetName(), "P.cal.etracknorm", pidNoCalCut);
+  dataTree->Project(etotHisto->GetName(), "P.cal.etracknorm", pidCut);
   dataTree->Project(etotCutHisto->GetName(), "P.cal.etracknorm", allCuts);
 
-  Int_t yield   = etotCutHisto->Integral();
+  Int_t yieldRaw   = etotHisto->Integral();
+  Int_t yieldxgt1  = etotCutHisto->Integral();
   Double_t etotMax = etotCutHisto->GetMaximum();
 
   gStyle->SetOptStat(0);
   etotHisto->SetLineColor(kRed);
   etotCutHisto->SetLineColor(kBlue);
 
-  TLegend *leg = new TLegend(0.15, 0.6, 0.4, 0.85);
-  leg->AddEntry(etotCutHisto, Form("Yield = %d", yield), "");
+  TLegend *leg = new TLegend(0.15, 0.6, 0.5, 0.85);
+  // leg->AddEntry(etotHisto, Form("e^{-} Yield = %d", yieldRaw), "");
+  // leg->SetTextColor(kRed);
+  leg->AddEntry(etotCutHisto, Form("e^{-} Yield, 1.5 < x_{bj} < 1.9 = %d", yieldxgt1), "");
   leg->SetTextColor(kBlue);
   leg->SetLineColor(0);
 
